@@ -8,7 +8,7 @@
 sudo apt-get install -y --allow-downgrades \
      libnvinfer5=5.1.2-1+cuda10.0 \
      libnvinfer-dev=5.1.2-1+cuda10.0 && \
-     ln -s /usr/local/cuda/lib64/libcudart.so /usr/lib/libcudart.so
+     sudo ln -s /usr/local/cuda/lib64/libcudart.so /usr/lib/libcudart.so
 ```
 #### Open CV Build & Install Command
 ```
