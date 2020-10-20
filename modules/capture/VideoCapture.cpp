@@ -1,9 +1,9 @@
 #include "VideoCapture.h"
-#include "../util/Util.h"
 
 
 #include <opencv2/opencv.hpp>
 #include <functional>
+#include <unistd.h>
 
 void captureVideo(cv::VideoCapture from, const std::function<void(cv::Mat)>& onFrame) {
     if (!from.isOpened()) {
@@ -12,8 +12,11 @@ void captureVideo(cv::VideoCapture from, const std::function<void(cv::Mat)>& onF
     cv::Mat frame;
     while(true) {
         from >> frame;
-        if (frame.empty())
+        if (frame.empty()){
+            unsigned int microseconds = 1000;
+            usleep(microseconds);
             continue;
+        }
         onFrame(frame);
     }
 }
