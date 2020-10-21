@@ -1,10 +1,12 @@
 #include "modules/capture/VideoCapture.h"
 #include "yolo_v2_class.hpp"
 #include "modules/util/Util.h"
-
+#define GPU 0
 #define MESSAGE "WARNING"
 
+bool need2ShowWarning(const std::function<int(std::vector<bbox_t>)>& condition){
 
+}
 
 int main(int argc, char* argv[]) {
     int webcamId = 0;
@@ -15,12 +17,13 @@ int main(int argc, char* argv[]) {
     Util::Detection phone(67, "phone");
     std::vector<Util::Detection> objects = {person, phone};
     Detector detector(
-            "/home/art/Workspace/detector/modules/darknet/cfg/yolov4.cfg",
-            "/home/art/Workspace/detector/resources/yolov4.weights",
+            "resources/yolov4.cfg",
+            "resources/yolov4.weights",
             0
     );
     cv::namedWindow("DETECTION");
-    Capture::VideoCapture::capture(webcamId, [&](cv::Mat frame) {
+    Capture::VideoCapture::capture("video.mp4", [&](cv::Mat frame) {
+
         const std::vector<bbox_t> &detections = detector.detect(frame, 0.525, true);
         const int personsCount = Util::Darknet::getObjectsCount(detections, 0.5, person.id);
         Util::OpenCV::drawDetections(frame, detections, objects);
