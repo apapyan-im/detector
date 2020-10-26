@@ -4,8 +4,9 @@
 
 #### CUDA Installation Guide
 >https://gist.github.com/matheustguimaraes/43e0b65aa534db4df2918f835b9b361d
-```
+
 #### Open CV Build & Install Command
+
 ```
 OPENCV_VERSION=4.1.0
 cd ~ && wget -O opencv.zip https://github.com/Itseez/opencv/archive/${OPENCV_VERSION}.zip && \
