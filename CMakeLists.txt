@@ -1,10 +1,9 @@
 cmake_minimum_required(VERSION 3.12)
 project(detector)
 set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g")
 
 find_package(OpenCV REQUIRED)
-find_package(CUDA REQUIRED)
+#find_package(CUDA REQUIRED)
 link_libraries(${OpenCV_LIBS})
 include_directories(modules/capture/include modules/darknet/include ${OpenCV_INCLUDE})
 add_subdirectory(modules/darknet)
