@@ -4,15 +4,11 @@
 
 #### CUDA Installation Guide
 >https://gist.github.com/matheustguimaraes/43e0b65aa534db4df2918f835b9b361d
-#### CUDART Install Command
-```
-sudo apt-get install -y --allow-downgrades \
-     libnvinfer5=5.1.2-1+cuda10.0 \
-     libnvinfer-dev=5.1.2-1+cuda10.0 && \
-     sudo ln -s /usr/local/cuda/lib64/libcudart.so /usr/lib/libcudart.so
-```
+
 #### Open CV Build & Install Command
+
 ```
+OPENCV_VERSION=4.1.0
 cd ~ && wget -O opencv.zip https://github.com/Itseez/opencv/archive/${OPENCV_VERSION}.zip && \
 wget -O opencv_contrib.zip https://github.com/Itseez/opencv_contrib/archive/${OPENCV_VERSION}.zip && \
 unzip opencv.zip && rm opencv.zip && mv opencv-${OPENCV_VERSION} opencv && \
@@ -36,12 +32,12 @@ cmake \
 -D WITH_GSTREAMER=OFF \
 -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
 -D CMAKE_INSTALL_PREFIX=/usr/local \
--D WITH_CUDA=ON \
--D WITH_CUFFT=ON \
--D WITH_CUBLAS=ON \
--D WITH_CUDNN=ON \
--D ENABLE_FAST_MATH=1 \
--D CUDA_FAST_MATH=1 \
+-D WITH_CUDA=ON \ # OFF if wihtout gpu
+-D WITH_CUFFT=ON \ # OFF if wihtout gpu
+-D WITH_CUBLAS=ON \ # OFF if wihtout gpu
+-D WITH_CUDNN=ON \ # OFF if wihtout gpu
+-D ENABLE_FAST_MATH=1 \ # OFF if wihtout gpu
+-D CUDA_FAST_MATH=1 \ # OFF if wihtout gpu
 .. && \
 make -j$(nproc) && \
 sudo make install && \
