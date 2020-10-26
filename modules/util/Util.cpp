@@ -15,11 +15,8 @@ void Util::OpenCV::drawDetections(cv::Mat frame, const std::vector<bbox_t> &dete
     std::cout << "************* DETECTED OBJECTS *************\n";
     for (auto &object: objects) {
         for (auto &i : detections) {
-            if (i.obj_id == object.id) {
-
+            if (i.obj_id == object.id && i.prob > 0.7) {
                 std::cout << object.name << " ::: " << i.prob << "\n";
-
-
                 cv::Scalar color = obj_id_to_color(i.obj_id);
                 cv::rectangle(frame, cv::Rect(i.x, i.y, i.w, i.h), color, 2);
                 std::string obj_name = object.name;
@@ -51,7 +48,7 @@ void Util::OpenCV::drawDetections(cv::Mat frame, const std::vector<bbox_t> &dete
     }
 }
 
-int Util::Darknet::getObjectsCount(const std::vector<bbox_t> &detections, float prob, int objId) {
+int Util::Darknet::getObjectsCount(const std::vector<bbox_t> &detections, int objId, float prob) {
     int count = 0;
     for (auto detection : detections) {
         if (detection.prob >= prob && detection.obj_id == objId) {

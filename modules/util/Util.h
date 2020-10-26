@@ -25,7 +25,7 @@ namespace Util {
 
     class Darknet {
     public:
-        static int getObjectsCount(const std::vector<bbox_t> &detections, float prob, int objId);
+        static int getObjectsCount(const std::vector<bbox_t> &detections, int objId, float prob = 0.7);
     };
 
 }
