@@ -15,7 +15,7 @@ void Util::OpenCV::drawDetections(cv::Mat frame, const std::vector<bbox_t> &dete
     std::cout << "************* DETECTED OBJECTS *************\n";
     for (auto &object: objects) {
         for (auto &i : detections) {
-            if (i.obj_id == object.id && i.prob > 0.7) {
+            if (i.obj_id == object.id) {
                 std::cout << object.name << " ::: " << i.prob << "\n";
                 cv::Scalar color = obj_id_to_color(i.obj_id);
                 cv::rectangle(frame, cv::Rect(i.x, i.y, i.w, i.h), color, 2);

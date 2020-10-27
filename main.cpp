@@ -20,26 +20,33 @@ int main(int argc, char* argv[]) {
         if(argc > 2)
             waitKeyDelay = std::stoi(argv[2]);
     }
-    Util::Detection person(0, "person");
-    Util::Detection phone(67, "phone");
     std::vector<Util::Detection> objects = {
-            person,
-            phone
+            {0, "person"},
+            {67, "phone"},
+            {73, "book"}
     };
     Detector detector(
-            "resources/yolov3.cfg",
-            "resources/yolov3.weights",
+            "resources/yolov4.cfg",
+            "resources/yolov4.weights",
             0
     );
 
     auto detect = [&](cv::Mat frame) {
-        const std::vector<bbox_t> &detections = detector.detect(frame, 0.2);
-        const int personsCount = Util::Darknet::getObjectsCount(detections, person.id);
-        const int phonesCount = Util::Darknet::getObjectsCount(detections, phone.id);
+        const std::vector<bbox_t> &detections = detector.detect(frame, 0.3);
+        const int personsCount = Util::Darknet::getObjectsCount(detections, objects[0].id);
+        const int phonesCount = Util::Darknet::getObjectsCount(detections, objects[1].id);
         Util::OpenCV::drawDetections(frame, detections, objects);
         if (personsCount > 1 || phonesCount > 0) {
-            cv::putText(frame, MESSAGE, cvPoint(0, 90), cv::FONT_HERSHEY_COMPLEX_SMALL, 5, cvScalar(0, 0, 255), 5,
-                        CV_GRAY2RGBA);
+            cv::putText(
+                frame,
+                MESSAGE,
+                cvPoint(0, 90),
+                cv::FONT_HERSHEY_COMPLEX_SMALL,
+                5,
+                cvScalar(0, 0, 255),
+                5,
+                CV_GRAY2RGBA
+            );
         }
         cv::imshow("DETECTION", frame);
         cv::waitKey(waitKeyDelay);
