@@ -8,6 +8,15 @@
 #### Open CV Build & Install Command
 
 ```
+sudo apt update -y && sudo apt install -y build-essential cmake pkg-config unzip yasm git checkinstall \
+	libjpeg-dev libpng-dev libtiff-dev \
+	libavcodec-dev libavformat-dev libswscale-dev libavresample-dev \
+	libxvidcore-dev x264 libx264-dev libfaac-dev libmp3lame-dev libtheora-dev \
+	libfaac-dev libmp3lame-dev libvorbis-dev \
+	libdc1394-22 libdc1394-22-dev libxine2-dev libv4l-dev v4l-utils \
+	libgtk-3-dev \
+	libtbb-dev \
+	libatlas-base-dev gfortran
 OPENCV_VERSION=4.1.0
 cd ~ && wget -O opencv.zip https://github.com/Itseez/opencv/archive/${OPENCV_VERSION}.zip && \
 wget -O opencv_contrib.zip https://github.com/Itseez/opencv_contrib/archive/${OPENCV_VERSION}.zip && \
@@ -17,7 +26,7 @@ cd ~/opencv && \
 mkdir build && \
 cd build && \
 cmake \
--D WITH_QT=ON \
+-D WITH_QT=OFF \
 -D WITH_OPENGL=ON \
 -D FORCE_VTK=OFF \
 -D WITH_TBB=OFF \
@@ -32,12 +41,12 @@ cmake \
 -D WITH_GSTREAMER=OFF \
 -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
 -D CMAKE_INSTALL_PREFIX=/usr/local \
--D WITH_CUDA=ON \ # OFF if wihtout gpu
--D WITH_CUFFT=ON \ # OFF if wihtout gpu
--D WITH_CUBLAS=ON \ # OFF if wihtout gpu
--D WITH_CUDNN=ON \ # OFF if wihtout gpu
--D ENABLE_FAST_MATH=1 \ # OFF if wihtout gpu
--D CUDA_FAST_MATH=1 \ # OFF if wihtout gpu
+-D WITH_CUDA=ON \
+-D WITH_CUFFT=ON \
+-D WITH_CUBLAS=ON \
+-D WITH_CUDNN=ON \
+-D ENABLE_FAST_MATH=1 \
+-D CUDA_FAST_MATH=1 \
 .. && \
 make -j$(nproc) && \
 sudo make install && \
@@ -55,6 +64,10 @@ cmake .
 make 
 ```
 # Run 
+```
+./detector FILE_PATH
+```
+OR
 ```
 ./detector WEBCAM_ID # Default is 0
 ```
