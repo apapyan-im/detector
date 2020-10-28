@@ -11,12 +11,9 @@ long long Util::Util::currentTimeMillis() {
 }
 
 void Util::OpenCV::drawDetections(cv::Mat frame, const std::vector<bbox_t> &detections, std::vector<Detection> &objects) {
-    std::cout << "*************     NEW FRAME    *************\n";
-    std::cout << "************* DETECTED OBJECTS *************\n";
     for (auto &object: objects) {
         for (auto &i : detections) {
-            if (i.obj_id == object.id) {
-                std::cout << object.name << " ::: " << i.prob << "\n";
+            if (i.obj_id == object.id && i.prob > 0.7) {
                 cv::Scalar color = obj_id_to_color(i.obj_id);
                 cv::rectangle(frame, cv::Rect(i.x, i.y, i.w, i.h), color, 2);
                 std::string obj_name = object.name;
@@ -59,3 +56,7 @@ int Util::Darknet::getObjectsCount(const std::vector<bbox_t> &detections, int ob
 }
 
 Util::Detection::Detection(int id, std::string name) : id(id), name(std::move(name)) {}
+void Util::OpenCV::showWindow(const cv::Mat &frame, int frameDelay) {
+    cv::imshow("DETECTION", frame);
+    cv::waitKey(frameDelay);
+}

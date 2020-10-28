@@ -8,7 +8,7 @@
 int main(int argc, char* argv[]) {
     std::string url;
     int webcamId = -1;
-    int waitKeyDelay = 1;
+    int waitKeyDelay = 0;
     bool isWebcam = false;
     if(argc > 1){
         try {
@@ -22,8 +22,7 @@ int main(int argc, char* argv[]) {
     }
     std::vector<Util::Detection> objects = {
             {0, "person"},
-            {67, "phone"},
-            {73, "book"}
+            {67, "phone"}
     };
     Detector detector(
             "resources/yolov4.cfg",
@@ -32,10 +31,9 @@ int main(int argc, char* argv[]) {
     );
 
     auto detect = [&](cv::Mat frame) {
-        const std::vector<bbox_t> &detections = detector.detect(frame, 0.3);
+        const std::vector<bbox_t> &detections = detector.detect(frame, 0.7);
         const int personsCount = Util::Darknet::getObjectsCount(detections, objects[0].id);
         const int phonesCount = Util::Darknet::getObjectsCount(detections, objects[1].id);
-        Util::OpenCV::drawDetections(frame, detections, objects);
         if (personsCount > 1 || phonesCount > 0) {
             cv::putText(
                 frame,
@@ -48,14 +46,20 @@ int main(int argc, char* argv[]) {
                 CV_GRAY2RGBA
             );
         }
-        cv::imshow("DETECTION", frame);
-        cv::waitKey(waitKeyDelay);
+        if(waitKeyDelay > 0){
+            Util::OpenCV::drawDetections(frame, detections, objects);
+            Util::OpenCV::showWindow(frame, waitKeyDelay);
+        }
+        std::stringstream result;
+        for (auto &i : detections) {
+            result << Label(i, float(frame.cols), float(frame.rows)).toString() + "\n";
+        }
+        return result.str();
     };
 
-    cv::namedWindow("DETECTION");
     if(isWebcam){
         Capture::VideoCapture::capture(webcamId, detect);
-    }else{
+    } else {
         Capture::VideoCapture::capture(url, detect);
     }
 
