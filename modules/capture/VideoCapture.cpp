@@ -3,6 +3,7 @@
 
 #include <opencv2/opencv.hpp>
 #include <functional>
+#include "yolo_v2_class.hpp"
 
 void captureVideo(cv::VideoCapture from, const std::function<std::string(cv::Mat)>& onFrame) {
     if (!from.isOpened()) {
@@ -14,7 +15,11 @@ void captureVideo(cv::VideoCapture from, const std::function<std::string(cv::Mat
         if (frame.empty()){
             break;
         }
-        onFrame(frame);
+//        cv::cuda::GpuMat resized;
+//        cv::cuda::GpuMat orig(frame);
+//        cv::cuda::resize(orig, resized, cv::Size(1280, 720));
+//        const cv::Mat &mat = cv::Mat(resized);
+        onFrame(/*cv::Mat(*/frame/*)*/);
     }
 }
 

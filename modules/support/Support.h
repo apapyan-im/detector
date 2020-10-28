@@ -5,8 +5,8 @@
 
 #include "../darknet/src/image.h"
 
-namespace Util {
-    class Util {
+namespace Support {
+    class Time {
     public:
         static long long currentTimeMillis();
     };
@@ -21,12 +21,12 @@ namespace Util {
     class OpenCV {
     public:
         static void drawDetections(cv::Mat frame, const std::vector<bbox_t>& detections, std::vector<Detection> &objects);
-        static void void showWindow(const cv::Mat& frame, int frameDelay);
+        static void showWindow(const cv::Mat& frame, int frameDelay);
     };
 
     class Darknet {
     public:
-        static int getObjectsCount(const std::vector<bbox_t> &detections, int objId, float prob = 0.7);
+        static int getObjectsCount(const std::vector<bbox_t> &detections, int objId, float prob = 0.3);
     };
 
 }

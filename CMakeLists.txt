@@ -9,6 +9,6 @@ include_directories(modules/capture/include modules/darknet/include ${OpenCV_INC
 add_subdirectory(modules/darknet)
 add_executable(detector main.cpp
         modules/capture/VideoCapture.cpp
-        modules/util/Util.cpp
-        modules/util/config/Config.cpp)
+        modules/support/Support.cpp
+)
 target_link_libraries(detector dark)

@@ -1,19 +1,19 @@
-#include "Util.h"
+#include "Support.h"
 
 
 #include <chrono>
 #include <utility>
 
 
-long long Util::Util::currentTimeMillis() {
+long long Support::Time::currentTimeMillis() {
     return std::chrono::duration_cast<std::chrono::milliseconds>(
             std::chrono::system_clock::now().time_since_epoch()).count();
 }
 
-void Util::OpenCV::drawDetections(cv::Mat frame, const std::vector<bbox_t> &detections, std::vector<Detection> &objects) {
+void Support::OpenCV::drawDetections(cv::Mat frame, const std::vector<bbox_t> &detections, std::vector<Detection> &objects) {
     for (auto &object: objects) {
         for (auto &i : detections) {
-            if (i.obj_id == object.id && i.prob > 0.7) {
+            if (i.obj_id == object.id) {
                 cv::Scalar color = obj_id_to_color(i.obj_id);
                 cv::rectangle(frame, cv::Rect(i.x, i.y, i.w, i.h), color, 2);
                 std::string obj_name = object.name;
@@ -45,7 +45,7 @@ void Util::OpenCV::drawDetections(cv::Mat frame, const std::vector<bbox_t> &dete
     }
 }
 
-int Util::Darknet::getObjectsCount(const std::vector<bbox_t> &detections, int objId, float prob) {
+int Support::Darknet::getObjectsCount(const std::vector<bbox_t> &detections, int objId, float prob) {
     int count = 0;
     for (auto detection : detections) {
         if (detection.prob >= prob && detection.obj_id == objId) {
@@ -55,8 +55,8 @@ int Util::Darknet::getObjectsCount(const std::vector<bbox_t> &detections, int ob
     return count;
 }
 
-Util::Detection::Detection(int id, std::string name) : id(id), name(std::move(name)) {}
-void Util::OpenCV::showWindow(const cv::Mat &frame, int frameDelay) {
+Support::Detection::Detection(int id, std::string name) : id(id), name(std::move(name)) {}
+void Support::OpenCV::showWindow(const cv::Mat &frame, int frameDelay) {
     cv::imshow("DETECTION", frame);
     cv::waitKey(frameDelay);
 }
