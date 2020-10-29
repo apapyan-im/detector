@@ -3,7 +3,6 @@
 
 #include <opencv2/opencv.hpp>
 #include <functional>
-#include "yolo_v2_class.hpp"
 
 void captureVideo(cv::VideoCapture from, const std::function<std::string(cv::Mat)>& onFrame) {
     if (!from.isOpened()) {
@@ -15,11 +14,7 @@ void captureVideo(cv::VideoCapture from, const std::function<std::string(cv::Mat
         if (frame.empty()){
             break;
         }
-//        cv::cuda::GpuMat resized;
-//        cv::cuda::GpuMat orig(frame);
-//        cv::cuda::resize(orig, resized, cv::Size(1280, 720));
-//        const cv::Mat &mat = cv::Mat(resized);
-        onFrame(/*cv::Mat(*/frame/*)*/);
+        onFrame(frame);
     }
 }
 
@@ -32,6 +27,7 @@ void readDirectory(const std::string& src, const std::function<std::string(cv::M
         std::ofstream outfile (fileNames[i] + ".detection_result");
         std::string res = onFrame(cv::imread(fileNames[i]));
         outfile << res << std::endl;
+        outfile.close();
     }
 
 }

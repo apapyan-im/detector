@@ -8,7 +8,7 @@
 int main(int argc, char* argv[]) {
     std::string url;
     int webcamId = -1;
-    int waitKeyDelay = 1;
+    int waitKeyDelay = 0;
     bool isWebcam = false;
     if(argc > 1){
         try {
@@ -46,17 +46,16 @@ int main(int argc, char* argv[]) {
                 CV_GRAY2RGBA
             );
         }
-//        if(waitKeyDelay > 0){
+        if(waitKeyDelay > 0){
             Support::OpenCV::drawDetections(frame, detections, objects);
             Support::OpenCV::showWindow(frame, waitKeyDelay);
-//        }
+        }
         std::stringstream result;
-//        for (auto &i : detections) {
-//            result << Label(i, float(frame.cols), float(frame.rows)).toString() + "\n";
-//        }
+        for (auto &i : detections) {
+            result << Label(i, float(frame.cols), float(frame.rows)).toString() + "\n";
+        }
         return result.str();
     };
-    cv::namedWindow("DETECTION");
     if(isWebcam){
         Capture::VideoCapture::capture(webcamId, detect);
     } else {
